@@ -332,6 +332,7 @@ class Worker(ServerNode):
         lifetime=None,
         lifetime_stagger=None,
         lifetime_restart=None,
+        scheduler_sni=None,
         **kwargs,
     ):
         self.tasks = dict()
@@ -512,7 +513,8 @@ class Worker(ServerNode):
         self.security = security or Security()
         assert isinstance(self.security, Security)
         self.connection_args = self.security.get_connection_args("worker")
-
+        if scheduler_sni:
+            self.connection_args["server_hostname"] = scheduler_sni
         self.memory_limit = parse_memory_limit(memory_limit, self.nthreads)
 
         self.paused = False
