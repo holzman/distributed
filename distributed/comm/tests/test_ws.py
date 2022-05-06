@@ -1,4 +1,5 @@
 import os
+import time
 import warnings
 
 import pytest
@@ -178,6 +179,8 @@ async def test_connection_made_with_extra_conn_args(protocol):
         connection_args = security.get_connection_args("worker")
         comm = await connect(s.address, **connection_args)
         assert comm.sock.request.headers.get("Authorization") == "Token abcd"
+
+        time.sleep(0.1)
         await comm.close()
 
 
